@@ -25,24 +25,44 @@ SECRET_KEY = 'django-insecure-v@1b(_1j^nq9w7%-zxe)h7u1!)*+7d58c(#x$2-_ge!7lxtjjx
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
 
+SHARED_APPS = [
+    'django_tenants',
+    'customers',
+    'django.contrib.contenttypes',
+    'django.contrib.auth',
+    'django.contrib.sessions',
+    'django.contrib.sites',
+    'django.contrib.messages',
+    'django.contrib.admin',
+    'rest_framework'
+]
+
+TENANT_APPS = [ 
+    'nafasi', 
+    'vitae'
+]
+
 INSTALLED_APPS = [
+    'django_tenants',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'nafasi',
+    'customers',
+    'nafasi', 
     'vitae',
     'rest_framework'
 ]
 
 MIDDLEWARE = [
+    'django_tenants.middleware.main.TenantMainMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -78,11 +98,19 @@ WSGI_APPLICATION = 'recuirt.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django_tenants.postgresql_backend',
+        'NAME': 'recuirt',
+        'USER': 'recuirt',
+        'PASSWORD': 'r3cu1rt.c4p1t4l',
+        'HOST': 'localhost',
+        'PORT': 5432,
+        'CHARSET': 'UTF8'
     }
 }
 
+DATABASE_ROUTERS = (
+    'django_tenants.routers.TenantSyncRouter',
+)
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -124,3 +152,6 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+TENANT_MODEL = 'customers.Client'
+TENANT_DOMAIN_MODEL = "customers.Domain"
