@@ -30,34 +30,28 @@ ALLOWED_HOSTS = ['*']
 
 # Application definition
 
-SHARED_APPS = [
-    'django_tenants',
-    'customers',
+MAIN_APPS = [
+    'user',
     'django.contrib.contenttypes',
     'django.contrib.auth',
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.admin',
-    'rest_framework'
+    'django.contrib.staticfiles'
 ]
 
-TENANT_APPS = [ 
+SHARED_APPS = [
+    'django_tenants',
+    'customers',
+] + MAIN_APPS
+
+TENANT_APPS = MAIN_APPS + [
     'nafasi', 
     'vitae'
 ]
 
-INSTALLED_APPS = [
-    'django_tenants',
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'customers',
-    'nafasi', 
-    'vitae',
+INSTALLED_APPS = SHARED_APPS + [app for app in TENANT_APPS if app not in SHARED_APPS] + [
     'rest_framework'
 ]
 
@@ -155,3 +149,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 TENANT_MODEL = 'customers.Client'
 TENANT_DOMAIN_MODEL = "customers.Domain"
+AUTH_USER_MODEL = 'user.CustomUser'
+SITE_ID = 1
