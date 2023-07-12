@@ -4,11 +4,11 @@ from django.db import models
 
 # Create your models here.
 class Skill(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4,editable=False)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=100)
 
 class Position(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4,editable=False)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=200)
     description = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
@@ -22,5 +22,13 @@ class ExperienceWeight(models.Model):
     time_of_experience = models.DecimalField(decimal_places=1),
     weight = models.IntegerField()
     required = models.BooleanField()
+    
+
+class Vacancy(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    position = models.ForeignKey(Position, on_delete=models.CASCADE)
+    max_candidates = models.IntegerField(),
+    due_date = models.DateField()
+    min_threshold = models.IntegerField()
     
 
