@@ -37,4 +37,3 @@ class VacanciesViewSet(viewsets.ModelViewSet):
     queryset = Vacancy.objects.all()
     serializer_class = VacanciesSerializer
     permission_classes = [permissions.IsAuthenticated]
-
