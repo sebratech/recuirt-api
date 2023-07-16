@@ -1,5 +1,7 @@
 from django.shortcuts import render
-from rest_framework import viewsets, permissions
+from rest_framework import viewsets, permissions, status
+from rest_framework.response import Response
+from django.db import transaction
 
 from .models import Skill, Position, ExperienceWeight, Vacancy
 from .serializers import SkillsSerializer, PositionsSerializer, ExperiencesWeightSerializer, VacanciesSerializer
@@ -21,6 +23,16 @@ class PositionsViewSet(viewsets.ModelViewSet):
     queryset = Position.objects.all()
     serializer_class = PositionsSerializer
     permission_classes = [permissions.IsAuthenticated]
+
+    @transaction.atomic
+    def create(self, request):
+        position_data = request.data
+        position_data['author'] = request.user.id
+        serializer = self.serializer_class(data=position_data)
+        if(serializer.is_valid()):
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class ExperiencesViewSet(viewsets.ModelViewSet):
     """
