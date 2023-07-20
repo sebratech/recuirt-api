@@ -8,7 +8,6 @@ class SkillsSerializer(serializers.ModelSerializer):
 
 class ExperiencesWeightSerializer(serializers.ModelSerializer):
     name = serializers.CharField(source="skill.name")
-    id = serializers.CharField(source="skill.id", required=False)
     class Meta:
         model = ExperienceWeight
         fields = ('id', 'name', 'experience_time' ,'weight', 'required')
