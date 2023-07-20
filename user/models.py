@@ -10,5 +10,3 @@ class CustomUser(AbstractUser):
     def get_fallback_pk(cls):
         fallback_user, _ = cls.objects.get_or_create(username='fallback')
         return fallback_user.pk
-
-        
