@@ -5,3 +5,8 @@ from django.db import models
 
 class CustomUser(AbstractUser):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+
+    @classmethod
+    def get_fallback_pk(cls):
+        fallback_user, _ = cls.objects.get_or_create(username='fallback')
+        return fallback_user.pk

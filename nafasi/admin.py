@@ -13,7 +13,11 @@ class SkillAdmin(admin.ModelAdmin):
 class PositionAdmin(admin.ModelAdmin):
     inlines = (ExperienceWeightInline,)
 
+class VacancyAdmin(admin.ModelAdmin):
+    list_display = ['__str__', 'due_date', 'max_candidates']
+    search_fields = ['due_date']
+
 # Register your models here.
 admin.site.register(Position, PositionAdmin)
 admin.site.register(Skill, SkillAdmin)
-admin.site.register(Vacancy)
+admin.site.register(Vacancy, VacancyAdmin)
