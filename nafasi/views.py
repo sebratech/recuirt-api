@@ -1,10 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from rest_framework import viewsets, permissions
 from django.db import transaction
 
 from .models import Skill, Position, ExperienceWeight, Vacancy
 from .serializers import SkillsSerializer, PositionsSerializer, ExperiencesWeightSerializer, VacanciesSerializer
-from .utils import set_serializer_author_and_response
+from .utils import set_serializer_author_and_response, set_serializer_author_response_update
 
 # Create your views here.
 
@@ -27,6 +27,11 @@ class PositionsViewSet(viewsets.ModelViewSet):
     @transaction.atomic
     def create(self, request):
         return set_serializer_author_and_response(self, request)
+
+    @transaction.atomic
+    def update(self, request, pk=None):
+        position = get_object_or_404(Position, pk=pk)
+        return set_serializer_author_response_update(self, request, position)
 
 class ExperiencesViewSet(viewsets.ModelViewSet):
     """

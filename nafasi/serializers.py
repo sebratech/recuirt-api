@@ -31,6 +31,44 @@ class PositionsSerializer(serializers.ModelSerializer):
             ExperienceWeight.objects.create(position=position, skill=skill, **experience_weight)
         return position
 
+    def update(self, instance, validated_data):
+        experience_weights = validated_data.pop('experienceweight_set')
+        instance.name = validated_data.pop('name')
+        instance.description = validated_data.pop('description')
+        instance.save()
+
+        # List of skill IDs to keep
+        updated_skill_ids = []
+
+        for experience_weight_data in experience_weights:
+            skill_data = experience_weight_data.get('skill', {})
+            skill_name = skill_data.get('name').lower()
+            weight = experience_weight_data.get('weight', 0)
+            required = experience_weight_data.get('required', False)
+            experience_time = experience_weight_data.get('experience_time', None)
+            skill, _ = Skill.objects.get_or_create(name=skill_name)
+            updated_skill_ids.append(skill.id)
+
+            experience_weight, created = ExperienceWeight.objects.get_or_create(
+                position=instance,
+                skill=skill,
+                defaults={
+                    'weight': weight, 
+                    'required': required, 
+                    'experience_time': experience_time
+                }
+            )
+            if not created:
+                experience_weight.weight = weight
+                experience_weight.required = required
+                experience_weight.experience_time = experience_time
+                experience_weight.save()
+
+        # Delete ExperienceWeight instances not in the updated skills list
+        ExperienceWeight.objects.filter(position=instance).exclude(skill_id__in=updated_skill_ids).delete()
+
+        return instance
+
 class VacanciesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Vacancy
