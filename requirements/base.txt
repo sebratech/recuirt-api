@@ -1,7 +1,10 @@
-wheel==0.40.0
+asgiref==3.7.2
+attrs==23.1.0
+cffi==1.15.1
 cryptography==3.4.8
 Django==4.2
 django-cors-headers==4.2.0
+django-environ==0.11.2
 django-tenants==3.5.0
 djangorestframework==3.14.0
 djangorestframework-simplejwt==5.2.2
@@ -10,3 +13,10 @@ jsonschema==4.18.0
 jsonschema-specifications==2023.6.1
 Pillow==9.0.1
 psycopg2==2.9.6
+pycparser==2.21
+PyJWT==2.7.0
+pytz==2023.3
+referencing==0.29.1
+rpds-py==0.8.10
+sqlparse==0.4.4
+typing_extensions==4.7.1
