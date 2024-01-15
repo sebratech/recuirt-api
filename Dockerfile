@@ -12,4 +12,13 @@ COPY ./requirements/base.txt ./requirements.txt
 RUN \
   python3 -m pip install -r requirements.txt --no-cache-dir && \
   apk --purge del .build-deps
+
+# Copy entrypoint.sh
+COPY ./scripts/entrypoint.sh ./scripts/entrypoint.sh
+RUN sed -i 's/\r$//g' /usr/src/api/scripts/entrypoint.sh
+RUN chmod a+x /usr/src/api/scripts/entrypoint.sh
+
 COPY . .
+
+# run entrypoint
+ENTRYPOINT [ "/usr/src/api/scripts/entrypoint.sh" ]
