@@ -1,0 +1,43 @@
+- model: customers.client
+  pk: 2b015ebf-b1a2-478a-b782-689453426805
+  fields:
+    schema_name: sebratech
+    name: SebraTech
+    paid_until: 2024-12-31
+    on_trial: false
+    created_on: 2023-07-08
+- model: customers.client
+  pk: 8397dbec-91cc-4b7f-820d-5e9a618269bd
+  fields:
+    schema_name: public
+    name: Recuirt
+    paid_until: 2024-12-31
+    on_trial: false
+    created_on: 2023-07-08
+- model: customers.domain
+  pk: a6cec4cd-3ee3-4e9e-b1c1-c8721222f9f0
+  fields:
+    domain: recuirt.com
+    tenant: 8397dbec-91cc-4b7f-820d-5e9a618269bd
+    is_primary: true
+- model: customers.domain
+  pk: e329dbf4-4a6e-4082-96a6-24485436dd54
+  fields:
+    domain: sebratech.recuirt.com
+    tenant: 2b015ebf-b1a2-478a-b782-689453426805
+    is_primary: true
+- model: user.customuser
+  pk: 9fcfa0d4-2752-4caf-9087-12ac6572419b
+  fields:
+    password: pbkdf2_sha256$600000$7BmWmyOEEdZsdxOQlJmylo$3PdbiZe9jgCJDbdLQRpgMMUObj9Wg4rQSBTMIA8y+g8=
+    last_login: 2023-11-19 21:24:24.611166+00:00
+    is_superuser: true
+    username: admin
+    first_name: ""
+    last_name: ""
+    email: sebas11cs@gmail.com
+    is_staff: true
+    is_active: true
+    date_joined: 2023-07-08 23:52:54.350121+00:00
+    groups: []
+    user_permissions: []
